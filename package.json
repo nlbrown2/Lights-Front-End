@@ -5,6 +5,7 @@
   "dependencies": {
     "firebaseui": "^2.2.1",
     "react": "^15.6.1",
+    "react-background-image-loader": "^0.0.5",
     "react-dom": "^15.6.1",
     "react-helmet": "4",
     "react-snapshot": "^1.1.0",

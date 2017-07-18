@@ -5023,6 +5023,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-background-image-loader@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-background-image-loader/-/react-background-image-loader-0.0.5.tgz#217c0a2ee7b3d17db837f9ab38e0bc99dec330ca"
+  dependencies:
+    prop-types "^15.5.10"
+    react "^15.5.4"
+
 react-dev-utils@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.0.2.tgz#1a42263e9b6aa11dcb45d69dfe5eb1b354bd5531"
@@ -5137,7 +5144,7 @@ react-snapshot@^1.1.0:
     react "^15.3.0"
     react-dom "^15.3.0"
 
-react@^15.3.0, react@^15.6.1:
+react@^15.3.0, react@^15.5.4, react@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:

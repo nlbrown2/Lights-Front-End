@@ -3,8 +3,17 @@ import logo from './logo.svg';
 import Helmet from 'react-helmet';
 import './App.css';
 import initalizeFirebase, { initalizeFirebaseUI } from './services/initalizeFirebase.js';
+import styled from 'styled-components';
+import LandingPage from './LandingPage.js';
+import BackgroundImage from 'react-background-image-loader';
+import michiganStadium from './MichiganStadium.jpeg';
 
 var Paho = window.Paho;
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 
 class App extends Component {
 
@@ -33,7 +42,6 @@ class App extends Component {
   }
 
   onAuthStateChanged(user){
-    console.log(user);
     if(user != null){
       this.setState({ signedIn: true });
     } else {
@@ -70,12 +78,10 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.firebase.auth().currentUser);
     if(this.state.signedIn){
-      console.log('signed in');
       return (
         <div className="App">
-          <Helmet title="You are doing great" />
+          <Helmet title="LED Lights Interface" />
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <h2>Welcome to React</h2>
@@ -88,12 +94,12 @@ class App extends Component {
         </div>
       );
     } else {
-      console.log('not');
-      this.firebaseui = initalizeFirebaseUI(this.firebase.auth(), '#root', this.onSuccess.bind(this));
       return (
-        <div id="#firebaseui-auth-container">
-          <p> Please sign in first </p>
-        </div>
+        <BackgroundImage placeholder={michiganStadium}>
+          <Background>
+            <LandingPage auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
+          </Background>
+        </BackgroundImage>
       );
     }
   }
