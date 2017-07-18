@@ -95,11 +95,11 @@ class App extends Component {
       );
     } else {
       return (
-        <BackgroundImage placeholder={michiganStadium}>
+        // <BackgroundImage placeholder={michiganStadium}>
           <Background>
             <LandingPage auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
           </Background>
-        </BackgroundImage>
+        // </BackgroundImage>
       );
     }
   }
