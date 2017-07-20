@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import Helmet from 'react-helmet';
 import './App.css';
 import initalizeFirebase, { initalizeFirebaseUI } from './services/initalizeFirebase.js';
 import styled from 'styled-components';
 import LandingPage from './LandingPage.js';
-import BackgroundImage from 'react-background-image-loader';
-import michiganStadium from './MichiganStadium.jpeg';
+import HomePage from './HomePage.js';
 
 var Paho = window.Paho;
 const Background = styled.div`
@@ -80,26 +77,13 @@ class App extends Component {
   render() {
     if(this.state.signedIn){
       return (
-        <div className="App">
-          <Helmet title="LED Lights Interface" />
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h2>Welcome to React</h2>
-          </div>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-            Like this
-            or this <br/> so cool
-          </p>
-        </div>
+        <HomePage />
       );
     } else {
       return (
-        // <BackgroundImage placeholder={michiganStadium}>
           <Background>
             <LandingPage auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
           </Background>
-        // </BackgroundImage>
       );
     }
   }
