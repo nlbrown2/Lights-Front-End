@@ -20,10 +20,12 @@ class App extends Component {
     let signedIn = false;
     let mqtt = new Paho.MQTT.Client("m12.cloudmqtt.com", 30048, "web_" + parseInt(Math.random() * 100, 10));
 
-    mqtt.onMessageArrived = this.messageArrived
+    mqtt.onMessageArrived = this.messageArrived.bind(this);
     this.state = {
       mqtt,
-      signedIn
+      signedIn,
+      showStrings: 'loading,',
+      connected: false
     };
 
     let options = {
@@ -36,6 +38,20 @@ class App extends Component {
       onFailure:() => alert('There was an error in sending/recieving data. Please refresh')
     }
     this.state.mqtt.connect(options);
+  }
+
+  connect(){
+    let options = {
+      useSSL: true,
+      userName: "RpiLightsClient",
+      password: "T2c%I02504O&",
+      onSuccess: () => {
+        this.onConnect();
+      },
+      onFailure:() => alert('There was an error in sending/recieving data. Please refresh')
+    }
+    this.state.mqtt.connect(options);
+
   }
 
   onAuthStateChanged(user){
@@ -52,11 +68,22 @@ class App extends Component {
   }
 
   onConnect() {
+    this.setState({ connected: true });
     console.log("connected");
-    this.state.mqtt.subscribe("/status", {qos: 2, onSuccess: (qos) => console.log(qos) });
+    this.state.mqtt.subscribe("/status", {qos: 2, onSuccess: (qos) => console.log(qos), onFailure: (msg) => console.log(msg) });
+    this.state.mqtt.subscribe("/options", {qos: 2, onSuccess: (qos) => console.log(qos) });
     console.log("subscribed");
+    this.getShowNames();
     this.sendRequest("Hello T.");
     console.log("sent message");
+  }
+
+  getShowNames() {
+    console.log('test');
+    let message = new Paho.MQTT.Message("show list");
+    message._setQos(2);
+    message.destinationName = "/get";
+    this.state.mqtt.send(message);
   }
 
   sendRequest(request){
@@ -71,18 +98,28 @@ class App extends Component {
   }
 
   messageArrived(message){
-    console.log("recieved: ", message);
+    console.log(message);
+    console.log("recieved: ", message.payloadString);
+    console.log(message.destinationName);
+    if(message.destinationName === "/options") {
+      console.log('error?');
+      this.setState({ showStrings: message.payloadString });
+      console.log('yep');
+    }
+    console.log(message.destinationName);
+    alert('wat');
   }
 
   render() {
-    if(this.state.signedIn){
+    console.log(this.state.showStrings);
+    if(this.state.signedIn && this.state.connected){
       return (
-        <HomePage />
+        <HomePage mqtt={this.state.mqtt} items={this.state.showStrings.split(',')}/>
       );
     } else {
       return (
           <Background>
-            <LandingPage auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
+            <LandingPage  auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
           </Background>
       );
     }
