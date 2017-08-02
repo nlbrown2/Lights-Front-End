@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-// import Menu, { Item, SubMenu } from 'rc-menu';
-// import { RadioGroup, Radio } from 'react-radio-group';
-// import 'rc-menu/assets/index.css';
 import styled from 'styled-components';
-import { Header } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
+import BodyImages from 'react-body-images';
 
 const Background = styled.div`
   background-color: white;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin-top: -3.6vh;
   align-self: center;
   text-align: center;
+`;
+
+const GridFull = styled(Grid)`
+  height: 100%;
 `;
 
 class HomePage extends Component {
@@ -50,11 +51,22 @@ class HomePage extends Component {
   render() {
     console.log(this.props.items);
     return (
-      <Background >
-        <p>Text</p>
-      <p> Text 2 </p>
-      <Header as="h1">Header</Header>
-      </Background>
+      <div >
+        <BodyImages bgImageArray={['./backgroundRepeat.jpg']} />
+        <GridFull columns="equal">
+          <Grid.Row>
+            <Grid.Column>
+              <p> Text </p>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column style={{backgroundColor: 'red'}} />
+            <Grid.Column style={{backgroundColor: 'green'}}>
+              <p> Text 2 </p>
+            </Grid.Column>
+          </Grid.Row>
+        </GridFull>
+      </div>
     );
   }
 }

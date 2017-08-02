@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { initalizeFirebaseUI } from './services/initalizeFirebase.js';
+import { Grid, Header } from 'semantic-ui-react';
+import BodyImages from 'react-body-images';
 
-const Header = styled.p`
+const Headers = styled(Header)`
   color: #041E42;
   align-self: center;
   text-align: center;
@@ -11,22 +13,11 @@ const Header = styled.p`
   margin-top: 1rem;
   text-shadow: -1px 0 #FFC72C, 0 -1px #FFC72C, -1px 0 #FFC72C, 0 -1px #FFC72C;
   font-size: 20px;
+  padding-top: 1em;
 `;
 
-
-const Hr = styled.hr`
-  display: block;
-  position: relative;
-  padding: 0;
-  height: 0.25rem;
-  width: 100%;
-  max-height: 0;
-  font-size: 1px;
-  line-height: 0;
-  clear: both;
-  border: none;
-  border-top: 1px solid #ffffff;
-  border-bottom: 1px solid #ffffff;
+const GridFull = styled(Grid)`
+  height: 100%;
 `;
 
 class LandingPage extends Component {
@@ -38,9 +29,26 @@ class LandingPage extends Component {
 
   render(){
     return(
-      <div id="firebaseui-auth-container">
-        <Header> Please sign in first </Header>
-        <Hr />
+      <div >
+        <BodyImages bgImageArray={['./Cube.png']}>
+          <div style={{height: "100vh"}} >
+            <GridFull>
+              <Grid.Row style={{marginBottom: '-1rem'}}>
+              <Grid.Column verticalAlign="bottom">
+                <Headers textAlign="center"> Please sign in first </Headers>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row style={{marginTop: '-1rem'}}>
+              <Grid.Column verticalAlign="top">
+                <div id="firebaseui-auth-container">
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row />
+            <Grid.Row />
+            </GridFull>
+        </div>
+        </BodyImages>
       </div>
     );
   }

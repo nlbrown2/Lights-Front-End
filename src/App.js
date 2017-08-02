@@ -111,10 +111,11 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.showStrings);
     if(this.state.signedIn && this.state.connected){
       return (
-        <HomePage mqtt={this.state.mqtt} items={this.state.showStrings.split(',')}/>
+        <Background>
+          <HomePage mqtt={this.state.mqtt} items={this.state.showStrings.split(',')}/>
+        </Background>
       );
     } else {
       return (
