@@ -51,13 +51,13 @@ class HomePage extends Component {
   render() {
     console.log(this.props.items);
     return (
-      <div>
+      <div style={{padding: '5% 10%'}}>
         <BodyImages bgImageArray={['./backgroundRepeat.jpg']} />
-        <Table style={{backgroundColor: 'white', margin: '5% 10%'}} basic='very' celled collapsing>
+        <Table size="large" padded celled >
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Employee</Table.HeaderCell>
-              <Table.HeaderCell style={{width: '100%'}}>Correct Guesses</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Select a Show</Table.HeaderCell>
+              <Table.HeaderCell width={2}>Status</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -66,21 +66,25 @@ class HomePage extends Component {
               <Table.Cell>
                 <Header as='h4' image>
                   <Header.Content>
-                    Lena
-                    <Header.Subheader>Human Resources</Header.Subheader>
+                    Option 1
+                    <Header.Subheader>
+                      Selections?
+                    </Header.Subheader>
                   </Header.Content>
                 </Header>
               </Table.Cell>
               <Table.Cell>
-                22
+                In Queue
               </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>
                 <Header as='h4' image>
                   <Header.Content>
-                    Matthew
-                    <Header.Subheader>Fabric Design</Header.Subheader>
+                    Option 2
+                    <Header.Subheader>
+                      Selections?
+                    </Header.Subheader>
                   </Header.Content>
                 </Header>
               </Table.Cell>
@@ -92,8 +96,10 @@ class HomePage extends Component {
               <Table.Cell>
                 <Header as='h4' image>
                   <Header.Content>
-                    Lindsay
-                    <Header.Subheader>Entertainment</Header.Subheader>
+                    Option 3
+                    <Header.Subheader>
+                      Selections?
+                    </Header.Subheader>
                   </Header.Content>
                 </Header>
               </Table.Cell>
@@ -105,8 +111,10 @@ class HomePage extends Component {
               <Table.Cell>
                 <Header as='h4' image>
                   <Header.Content>
-                    Mark
-                    <Header.Subheader>Executive</Header.Subheader>
+                    Option 4
+                    <Header.Subheader>
+                      Selections?
+                    </Header.Subheader>
                   </Header.Content>
                 </Header>
               </Table.Cell>
