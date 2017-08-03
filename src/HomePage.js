@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Grid, Header } from 'semantic-ui-react';
+import { Table, Rail, Button, Container, Grid, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
 
 const Background = styled.div`
@@ -51,21 +51,71 @@ class HomePage extends Component {
   render() {
     console.log(this.props.items);
     return (
-      <div >
+      <div>
         <BodyImages bgImageArray={['./backgroundRepeat.jpg']} />
-        <GridFull columns="equal">
-          <Grid.Row>
-            <Grid.Column>
-              <p> Text </p>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column style={{backgroundColor: 'red'}} />
-            <Grid.Column style={{backgroundColor: 'green'}}>
-              <p> Text 2 </p>
-            </Grid.Column>
-          </Grid.Row>
-        </GridFull>
+        <Table style={{backgroundColor: 'white', margin: '5% 10%'}} basic='very' celled collapsing>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Employee</Table.HeaderCell>
+              <Table.HeaderCell style={{width: '100%'}}>Correct Guesses</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>
+                <Header as='h4' image>
+                  <Header.Content>
+                    Lena
+                    <Header.Subheader>Human Resources</Header.Subheader>
+                  </Header.Content>
+                </Header>
+              </Table.Cell>
+              <Table.Cell>
+                22
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <Header as='h4' image>
+                  <Header.Content>
+                    Matthew
+                    <Header.Subheader>Fabric Design</Header.Subheader>
+                  </Header.Content>
+                </Header>
+              </Table.Cell>
+              <Table.Cell>
+                15
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <Header as='h4' image>
+                  <Header.Content>
+                    Lindsay
+                    <Header.Subheader>Entertainment</Header.Subheader>
+                  </Header.Content>
+                </Header>
+              </Table.Cell>
+              <Table.Cell>
+                12
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>
+                <Header as='h4' image>
+                  <Header.Content>
+                    Mark
+                    <Header.Subheader>Executive</Header.Subheader>
+                  </Header.Content>
+                </Header>
+              </Table.Cell>
+              <Table.Cell>
+                11
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
       </div>
     );
   }
