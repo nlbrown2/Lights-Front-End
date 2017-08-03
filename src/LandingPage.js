@@ -35,14 +35,12 @@ class LandingPage extends Component {
             <GridFull>
               <Grid.Row style={{marginBottom: '-1rem'}}>
               <Grid.Column verticalAlign="bottom">
-                <Headers textAlign="center"> Please sign in first </Headers>
+                <Headers as={"h1"} textAlign="center"> Please sign in first </Headers>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row style={{marginTop: '-1rem'}}>
-              <Grid.Column verticalAlign="top">
-                <div id="firebaseui-auth-container">
+            <Grid.Row textAlign="center" style={{marginTop: '-1rem', justifyContent: 'center'}}>
+                <div style={{width: '100%'}}id="firebaseui-auth-container">
                 </div>
-              </Grid.Column>
             </Grid.Row>
             <Grid.Row />
             <Grid.Row />
