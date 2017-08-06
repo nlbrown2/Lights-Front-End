@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table, Rail, Button, Container, Grid, Header } from 'semantic-ui-react';
+import { Icon, Table, Rail, Button, Container, Grid, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
 
 const Background = styled.div`
@@ -53,18 +53,32 @@ class HomePage extends Component {
     return (
       <div style={{padding: '5% 10%'}}>
         <BodyImages bgImageArray={['./backgroundRepeat.jpg']} />
-        <Table size="large" padded celled >
+        <Button
+          floated="right"
+          positive
+        >
+          Submit Show Request
+        </Button>
+        <Button
+          floated="left"
+          negative
+        >
+          Sign Out
+        </Button>
+        <Table size="large" padded celled striped>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={4}>Select a Show</Table.HeaderCell>
-              <Table.HeaderCell width={2}>Status</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Description</Table.HeaderCell>
+              <Table.HeaderCell width={2}>Position in Queue</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
             <Table.Row>
               <Table.Cell>
-                <Header as='h4' image>
+                <Header as='h4'>
+                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
                   <Header.Content>
                     Option 1
                     <Header.Subheader>
@@ -74,12 +88,16 @@ class HomePage extends Component {
                 </Header>
               </Table.Cell>
               <Table.Cell>
-                In Queue
+                Description of Option 1
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                - -
               </Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>
-                <Header as='h4' image>
+              <Table.Cell textAlign="left" verticalAlign="middle">
+                <Header as='h4'>
+                <Icon style={{opacity: 1}} color="green" name="checkmark" size="large" />
                   <Header.Content>
                     Option 2
                     <Header.Subheader>
@@ -89,12 +107,16 @@ class HomePage extends Component {
                 </Header>
               </Table.Cell>
               <Table.Cell>
+                Description of Option 2
+              </Table.Cell>
+              <Table.Cell textAlign="center">
                 15
               </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>
-                <Header as='h4' image>
+                <Header as='h4'>
+                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
                   <Header.Content>
                     Option 3
                     <Header.Subheader>
@@ -104,12 +126,16 @@ class HomePage extends Component {
                 </Header>
               </Table.Cell>
               <Table.Cell>
+                Description of Option 3
+              </Table.Cell>
+              <Table.Cell textAlign="center">
                 12
               </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>
-                <Header as='h4' image>
+                <Header as='h4'>
+                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
                   <Header.Content>
                     Option 4
                     <Header.Subheader>
@@ -119,7 +145,10 @@ class HomePage extends Component {
                 </Header>
               </Table.Cell>
               <Table.Cell>
-                11
+                Description of Option 4
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                Running
               </Table.Cell>
             </Table.Row>
           </Table.Body>
