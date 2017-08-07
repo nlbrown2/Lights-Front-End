@@ -24,7 +24,6 @@ class App extends Component {
     this.state = {
       mqtt,
       signedIn,
-      showStrings: 'loading,',
       connected: false
     };
 
@@ -72,10 +71,8 @@ class App extends Component {
     console.log("connected");
     this.state.mqtt.subscribe("/status", {qos: 2, onSuccess: (qos) => console.log(qos), onFailure: (msg) => console.log(msg) });
     this.state.mqtt.subscribe("/options", {qos: 2, onSuccess: (qos) => console.log(qos) });
-    console.log("subscribed");
+    console.log('subscribed');
     this.getShowNames();
-    this.sendRequest("Hello T.");
-    console.log("sent message");
   }
 
   getShowNames() {
@@ -98,19 +95,13 @@ class App extends Component {
   }
 
   messageArrived(message){
-    console.log(message);
-    console.log("recieved: ", message.payloadString);
-    console.log(message.destinationName);
     if(message.destinationName === "/options") {
-      console.log('error?');
-      this.setState({ showStrings: message.payloadString });
-      console.log('yep');
+      this.setState({ info: JSON.parse(message.payloadString) });
     }
-    console.log(message.destinationName);
-    alert('wat');
   }
 
   render() {
+    console.log(this.state);
     if(this.state.signedIn && this.state.connected){
       return (
         <Background>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Icon, Table, Rail, Button, Container, Grid, Header } from 'semantic-ui-react';
+import { Icon, Table, Button, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
 
 const Background = styled.div`
@@ -12,10 +12,6 @@ const Background = styled.div`
   margin-top: -3.6vh;
   align-self: center;
   text-align: center;
-`;
-
-const GridFull = styled(Grid)`
-  height: 100%;
 `;
 
 class HomePage extends Component {
@@ -48,8 +44,8 @@ class HomePage extends Component {
     <span>Select a Show ></span>
   );
 
+  //need: show name, show description, and position in queue.
   render() {
-    console.log(this.props.items);
     return (
       <div style={{padding: '5% 10%'}}>
         <BodyImages bgImageArray={['./backgroundRepeat.jpg']} />
@@ -75,82 +71,32 @@ class HomePage extends Component {
           </Table.Header>
 
           <Table.Body>
-            <Table.Row>
-              <Table.Cell>
-                <Header as='h4'>
-                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
-                  <Header.Content>
-                    Option 1
-                    <Header.Subheader>
-                      Selections?
-                    </Header.Subheader>
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell>
-                Description of Option 1
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                - -
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell textAlign="left" verticalAlign="middle">
-                <Header as='h4'>
-                <Icon style={{opacity: 1}} color="green" name="checkmark" size="large" />
-                  <Header.Content>
-                    Option 2
-                    <Header.Subheader>
-                      Selections?
-                    </Header.Subheader>
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell>
-                Description of Option 2
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                15
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>
-                <Header as='h4'>
-                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
-                  <Header.Content>
-                    Option 3
-                    <Header.Subheader>
-                      Selections?
-                    </Header.Subheader>
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell>
-                Description of Option 3
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                12
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>
-                <Header as='h4'>
-                <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
-                  <Header.Content>
-                    Option 4
-                    <Header.Subheader>
-                      Selections?
-                    </Header.Subheader>
-                  </Header.Content>
-                </Header>
-              </Table.Cell>
-              <Table.Cell>
-                Description of Option 4
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                Running
-              </Table.Cell>
-            </Table.Row>
+            {this.props.shows && this.props.shows.length ?
+                this.props.shows.map((show) => (
+                  <Table.Row
+                    key={show.name}
+                  >
+                    <Table.Cell>
+                      <Header as="h4">
+                        <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
+                        <Header.Content>
+                          {show.name}
+                        </Header.Content>
+                        <Header.Subheader>
+                          {show.options}
+                        </Header.Subheader>
+                      </Header>
+                    </Table.Cell>
+                    <Table.Cell>
+                      {show.description}
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {show.position || '- -'}
+                    </Table.Cell>
+                  </Table.Row>
+                ))
+              : null
+            }
           </Table.Body>
         </Table>
       </div>
