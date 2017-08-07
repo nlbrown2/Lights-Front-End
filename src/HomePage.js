@@ -2,47 +2,21 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Icon, Table, Button, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
-
-const Background = styled.div`
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  margin-top: -3.6vh;
-  align-self: center;
-  text-align: center;
-`;
+import ShowMore from 'react-show-more';
 
 class HomePage extends Component {
 
-  constructor(props){
-    super(props);
-    let options = {
-      useSSL: true,
-      userName: "RpiLightsClient",
-      password: "T2c%I02504O&",
-      onSuccess: () => {
-        console.log('connected');
-      },
-      onFailure:() => alert('There was an error in sending/recieving data. Please refresh')
-    }
-    // this.props.mqtt.connect(options);
-    // this.props.mqtt.subscribe("/options", {qos: 2, onSuccess: (qos) => console.log(qos)});
-    console.log(this.props.mqtt.isConnected());
+  state = {
+    selectedRow: -1 //nothing by default
   }
 
   handleSelect(arg){
     console.log(arg);
   }
 
-  handleClick(arg){
-    console.log(arg);
+  handleClick(index){
+    this.setState({ selectedRow: index })
   }
-
-  _renderTitle = () => (
-    <span>Select a Show ></span>
-  );
 
   //need: show name, show description, and position in queue.
   render() {
@@ -58,10 +32,11 @@ class HomePage extends Component {
         <Button
           floated="left"
           negative
+          onClick={() => this.props.signOut()}
         >
           Sign Out
         </Button>
-        <Table size="large" padded celled striped>
+        <Table size="large" padded celled selectable striped>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell width={4}>Select a Show</Table.HeaderCell>
@@ -72,13 +47,15 @@ class HomePage extends Component {
 
           <Table.Body>
             {this.props.shows && this.props.shows.length ?
-                this.props.shows.map((show) => (
+                this.props.shows.map((show, i) => (
                   <Table.Row
                     key={show.name}
                   >
-                    <Table.Cell>
+                    <Table.Cell
+                      onClick={() => this.handleClick(i)}
+                    >
                       <Header as="h4">
-                        <Icon style={{opacity: 0}} color="green" name="checkmark" size="large" />
+                        <Icon style={{opacity: this.state.selectedRow === i ? 1 : 0}} color="green" name="checkmark" size="large" />
                         <Header.Content>
                           {show.name}
                         </Header.Content>
@@ -88,10 +65,14 @@ class HomePage extends Component {
                       </Header>
                     </Table.Cell>
                     <Table.Cell>
-                      {show.description}
+                      <ShowMore
+                      >
+                        {show.description}
+
+                      </ShowMore>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
-                      {show.position || '- -'}
+                      {show.position !== -1 ? show.position : '- -'}
                     </Table.Cell>
                   </Table.Row>
                 ))
