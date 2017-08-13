@@ -19,6 +19,31 @@ class HomePage extends Component {
   }
 
   //need: show name, show description, and position in queue.
+  updateOptionValue(show_index, option_name, value){
+    let old_options = this.state.options;
+    let show_name = this.props.shows[show_index].name;
+    if(value.trim() !== ''){
+      this.setState({
+        options: {
+          ...this.state.options,
+          [show_name]: {
+            ...this.state.options[show_name],
+            [option_name]: value
+          }
+        }
+      });
+    } else {
+      let { [option_name]: deletedKey, ...rest } = this.state.options[show_name];
+      //omit the current option from state
+      this.setState({
+        options: {
+          [show_name]: {
+            ...rest
+          }
+        }
+      });
+    }
+  }
   render() {
     return (
       <div style={{padding: '5% 10%'}}>
