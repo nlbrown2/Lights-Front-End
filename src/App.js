@@ -107,7 +107,8 @@ class App extends Component {
       console.log("error! request is not a string");
       return null;
     }
-    let message = new Paho.MQTT.Message(request);
+    let request_string = JSON.stringify({ name, options, user_token});
+    let message = new Paho.MQTT.Message(request_string);
     message._setQos(2); //need to ensure it is delivered, but only once
     message.destinationName = "/request";
     this.state.mqtt.send(message);
