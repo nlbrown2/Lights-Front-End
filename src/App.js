@@ -75,6 +75,7 @@ class App extends Component {
   onAuthStateChanged(user){
     if(user != null){
       console.log(user);
+      this.user = user;
     } else {
       console.log('hi');
     }
@@ -102,8 +103,14 @@ class App extends Component {
     this.state.mqtt.send(message);
   }
 
-  sendRequest(request){
-    if(typeof request !== 'string'){
+  async sendRequest(name, options){
+    let user_token = 'no token';
+    try{
+      user_token = await this.firebase.auth().currentUser.getToken(true);
+    } catch(e) {
+      alert('Error with authentication. Please sign out and back in again.');
+    }
+    if(typeof name !== 'string'){
       console.log("error! request is not a string");
       return null;
     }
@@ -122,10 +129,10 @@ class App extends Component {
 
   render() {
     console.log(this.state);
-    if(this.state.signedIn && this.state.connected){
+    if(this.state.signedIn && this.state.connected && this.user){
       return (
         <Background>
-          <HomePage signOut={this.signOut} mqtt={this.state.mqtt} shows={this.state.info}/>
+          <HomePage signOut={this.signOut} sendRequest={(name, options) => this.sendRequest(name, options)} userToken={this.user} shows={this.state.info}/>
         </Background>
       );
     } else {
