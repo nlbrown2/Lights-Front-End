@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import initalizeFirebase, { initalizeFirebaseUI } from './services/initalizeFirebase.js';
+import initalizeFirebase, { initalizeFirebaseUI, firebaseUIConfig } from './services/initalizeFirebase.js';
 import styled from 'styled-components';
 import LandingPage from './LandingPage.js';
 import HomePage from './HomePage.js';
@@ -17,6 +17,7 @@ class App extends Component {
   constructor(){
     super();
     this.firebase = initalizeFirebase();
+    this.firebase.auth().onAuthStateChanged(this.onAuthStateChanged.bind(this));
     let signedIn = false;
     let mqtt = new Paho.MQTT.Client("m12.cloudmqtt.com", 30048, "web_" + parseInt(Math.random() * 100, 10));
 
@@ -24,7 +25,6 @@ class App extends Component {
     this.state = {
       mqtt,
       signedIn,
-      showStrings: 'loading,',
       connected: false
     };
 
@@ -37,6 +37,8 @@ class App extends Component {
       },
       onFailure:() => alert('There was an error in sending/recieving data. Please refresh')
     }
+      this.firebaseui = initalizeFirebaseUI(this.firebase.auth(), '#firebaseui-auth-container', this.onSuccess.bind(this));
+    this.startFirebaseUI();
     this.state.mqtt.connect(options);
   }
 
@@ -54,11 +56,28 @@ class App extends Component {
 
   }
 
+  signOut = () => {
+    this.firebaseui.reset();
+    this.setState({ startFirebaseUI: true, signedIn: false });
+  }
+
+  componentDidUpdate(){
+    if(this.state.startFirebaseUI){
+      this.startFirebaseUI();
+    }
+  }
+
+  startFirebaseUI(){
+    this.firebaseui.start('#firebaseui-auth-container', firebaseUIConfig(this.onSuccess.bind(this)));
+    this.setState({ startFirebaseUI: false });
+  }
+
   onAuthStateChanged(user){
     if(user != null){
-      this.setState({ signedIn: true });
+      console.log(user);
+      this.user = user;
     } else {
-      this.firebaseui = initalizeFirebaseUI(this.firebase.auth(), '#root', this.onSuccess.bind(this));
+      console.log('hi');
     }
   }
 
@@ -72,10 +91,8 @@ class App extends Component {
     console.log("connected");
     this.state.mqtt.subscribe("/status", {qos: 2, onSuccess: (qos) => console.log(qos), onFailure: (msg) => console.log(msg) });
     this.state.mqtt.subscribe("/options", {qos: 2, onSuccess: (qos) => console.log(qos) });
-    console.log("subscribed");
+    console.log('subscribed');
     this.getShowNames();
-    this.sendRequest("Hello T.");
-    console.log("sent message");
   }
 
   getShowNames() {
@@ -86,41 +103,42 @@ class App extends Component {
     this.state.mqtt.send(message);
   }
 
-  sendRequest(request){
-    if(typeof request !== 'string'){
+  async sendRequest(name, options){
+    let user_token = 'no token';
+    try{
+      user_token = await this.firebase.auth().currentUser.getToken(true);
+    } catch(e) {
+      alert('Error with authentication. Please sign out and back in again.');
+    }
+    if(typeof name !== 'string'){
       console.log("error! request is not a string");
       return null;
     }
-    let message = new Paho.MQTT.Message(request);
+    let request_string = JSON.stringify({ name, options, user_token});
+    let message = new Paho.MQTT.Message(request_string);
     message._setQos(2); //need to ensure it is delivered, but only once
     message.destinationName = "/request";
     this.state.mqtt.send(message);
   }
 
   messageArrived(message){
-    console.log(message);
-    console.log("recieved: ", message.payloadString);
-    console.log(message.destinationName);
     if(message.destinationName === "/options") {
-      console.log('error?');
-      this.setState({ showStrings: message.payloadString });
-      console.log('yep');
+      this.setState({ info: JSON.parse(message.payloadString) });
     }
-    console.log(message.destinationName);
-    alert('wat');
   }
 
   render() {
-    if(this.state.signedIn && this.state.connected){
+    console.log(this.state);
+    if(this.state.signedIn && this.state.connected && this.user){
       return (
         <Background>
-          <HomePage mqtt={this.state.mqtt} items={this.state.showStrings.split(',')}/>
+          <HomePage signOut={this.signOut} sendRequest={(name, options) => this.sendRequest(name, options)} userToken={this.user} shows={this.state.info}/>
         </Background>
       );
     } else {
       return (
           <Background>
-            <LandingPage  auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
+            <LandingPage  startFirebaseUI={this.startFirebaseUI.bind(this)} auth={this.firebase.auth()} onSuccess={this.onSuccess.bind(this)} />
           </Background>
       );
     }

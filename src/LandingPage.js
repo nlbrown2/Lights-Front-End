@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { initalizeFirebaseUI } from './services/initalizeFirebase.js';
+import { initalizeFirebaseUI, firebaseUIConfig } from './services/initalizeFirebase.js';
 import { Grid, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
 
@@ -24,7 +24,11 @@ class LandingPage extends Component {
 
   constructor(props) {
     super(props);
-    this.firebaseui = initalizeFirebaseUI(this.props.auth, '#firebaseui-auth-container', this.props.onSuccess);
+    // console.log(firebaseUIConfig(this.props.onSuccess).callbacks.signInSuccess());
+    if(this.props.firebaseui){
+      // this.props.firebaseui.reset();
+      // this.props.firebaseui.start('#firebaseui-auth-container', firebaseUIConfig(this.props.onSuccess));
+    }
   }
 
   render(){
@@ -39,7 +43,7 @@ class LandingPage extends Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row textAlign="center" style={{marginTop: '-1rem', justifyContent: 'center'}}>
-                <div style={{width: '100%'}}id="firebaseui-auth-container">
+                <div style={{width: '100%'}} id="firebaseui-auth-container">
                 </div>
             </Grid.Row>
             <Grid.Row />
