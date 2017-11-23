@@ -123,6 +123,7 @@ class App extends Component {
 
   messageArrived(message){
     if(message.destinationName === "/options") {
+      console.log(message.payloadString);
       this.setState({ info: JSON.parse(message.payloadString) });
     }
   }
