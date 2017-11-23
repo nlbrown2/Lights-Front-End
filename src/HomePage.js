@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { List, Input, Icon, Table, Button, Header } from 'semantic-ui-react';
 import BodyImages from 'react-body-images';
 import ShowMoreLess from './ShowMoreLess.js';
+import debounce from 'debounce';
 
 class HomePage extends Component {
 
@@ -23,11 +24,14 @@ class HomePage extends Component {
   }
 
   sendRequest(index){
+    console.log('attempting to send request');
     if(this.validOptions()) {
       let show_name = this.props.shows[this.state.selectedRow].name;
       this.props.sendRequest(show_name, this.state.options[show_name]);
     }
   }
+
+  debouncedSendRequest = debounce(this.sendRequest, 250);
 
   validOptions(){
     // return true; used for testing backend with invalid options
@@ -258,7 +262,7 @@ class HomePage extends Component {
         <Button
           floated="right"
           positive
-          onClick={() => this.sendRequest()}
+          onClick={() => this.debouncedSendRequest()}
         >
           Submit Show Request
         </Button>
