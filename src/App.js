@@ -125,7 +125,7 @@ class App extends Component {
   messageDelivered(message){
     console.log("MESSAGE DELIVERED: ", message);
     if(message.destinationName == '/request'){
-      alert('message delivered!');
+      alert('Message Delivered!');
     }
   }
 
