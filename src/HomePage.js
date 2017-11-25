@@ -109,7 +109,7 @@ class HomePage extends Component {
         //this means the lower bound is another option
         let other_option = option_obj['lowerBound'];
         if(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]){
-          //the user has inputted the other option, so parse the string and check 
+          //the user has inputted the other option, so parse the string and check
           try{
             let other_value = parseFloat(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]);
             if(user_value < other_value){
@@ -137,7 +137,7 @@ class HomePage extends Component {
         //this means the upper bound is another option
         let other_option = option_obj['upperBound'];
         if(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]){
-          //the user has inputted the other option, so parse the string and check 
+          //the user has inputted the other option, so parse the string and check
           try{
             let other_value = parseFloat(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]);
             if(user_value > other_value){
@@ -168,7 +168,7 @@ class HomePage extends Component {
         //this means the lower bound is another option
         let other_option = option_obj['lowerBound'];
         if(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]){
-          //the user has inputted the other option, so parse the string and check 
+          //the user has inputted the other option, so parse the string and check
           try{
             let other_value = parseInt(this.state.options[this.props.shows[this.state.selectedRow].name][other_option]);
             if(user_value < other_value){
@@ -301,11 +301,11 @@ class HomePage extends Component {
                           {show.options && show.options != 'no options' && Object.keys(show.options).length ?
                               Object.keys(show.options).map((key, j) => (
                                 <div key={key} style={{}}>
-                                  <Input 
-                                    size="mini" 
-                                    label={key} 
-                                    style={{width: '50%'}} 
-                                    placeholder={show.options[key].default} 
+                                  <Input
+                                    size="mini"
+                                    label={key}
+                                    style={{width: '50%'}}
+                                    placeholder={show.options[key].default}
                                     onChange={(event, data) => {
                                       console.log(data);
                                       this.updateOptionValue(i, key, data.value);

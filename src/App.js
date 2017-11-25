@@ -22,6 +22,7 @@ class App extends Component {
     let mqtt = new Paho.MQTT.Client("m12.cloudmqtt.com", 30048, "web_" + parseInt(Math.random() * 100, 10));
 
     mqtt.onMessageArrived = this.messageArrived.bind(this);
+    mqtt.onMessageDelivered = this.messageDelivered.bind(this);
     this.state = {
       mqtt,
       signedIn,
@@ -96,7 +97,6 @@ class App extends Component {
   }
 
   getShowNames() {
-    console.log('test');
     let message = new Paho.MQTT.Message("show list");
     message._setQos(2);
     message.destinationName = "/get";
@@ -118,7 +118,15 @@ class App extends Component {
     let message = new Paho.MQTT.Message(request_string);
     message._setQos(2); //need to ensure it is delivered, but only once
     message.destinationName = "/request";
+    //alert('sending request!')
     this.state.mqtt.send(message);
+  }
+
+  messageDelivered(message){
+    console.log("MESSAGE DELIVERED: ", message);
+    if(message.destinationName == '/request'){
+      alert('message delivered!');
+    }
   }
 
   messageArrived(message){
