@@ -50,37 +50,61 @@ class HomePage extends Component {
           let userInput = this.state.options[show_name][Object.keys(this.state.options[show_name])[i]];
           let type = showObj.options[Object.keys(this.state.options[show_name])[i]].type;
           console.log(userInput);
+          console.log(type);
           if(type === "Float") {
             userInput = parseFloat(userInput);
             if(isNaN(userInput)) {
-              console.log('invalid Floating point number');
+              alert('invalid Floating point number');
               return false;
             } else if(!this.withinBounds(userInput, optionObj)){
-              console.log('invalid Floating point number: too low or too high');
+              alert('invalid Floating point number: too low or too high');
               return false;
             }
           } else if(type === "Integer"){
             userInput = parseInt(userInput);
             if(isNaN(userInput)){
-              console.log('invalid Integer');
+              alert('invalid Integer');
               return false;
             } else if(!this.withinBounds(userInput, optionObj)){
-              console.log('invalid Floating point number: too low or too high');
+              alert('invalid Floating point number: too low or too high');
               return false;
             }
           } else if(type === "Boolean"){
             if(userInput.toLowerCase() !== 'true' || userInput.toLowerCase() !== 'false'){
-              console.log('invalid boolean', userInput.toLowerCase());
+              alert('invalid boolean', userInput.toLowerCase());
               return false;
             } else if(!this.withinBounds(userInput, optionObj)){
-              console.log('invalid Floating point number: too low or too high');
+              alert('invalid Floating point number: too low or too high');
               return false;
             }
           } else if(type === "List of Floats"){
             try {
               userInput = JSON.parse(userInput);
+              for(let i = 0; i < userInput.length; i++) {
+                if(!this.withinBounds(userInput[i], optionObj)){
+                  alert('Invalid list of floats');
+                  console.log(i, userInput[i], optionObj);
+                  return false;
+                }
+              }
             } catch (e) {
-              console.log('Invalid list of floats', e);
+              alert('Invalid list of floats');
+              console.log(e);
+              return false;
+            }
+          } else if(type === "String"){
+            try {
+              if(optionObj['restricted_value']){
+                if(userInput in optionObj['allowed_values']){
+                  return true;
+                }
+                alert("Invalid string option");
+                return false;
+              }
+              return true;
+            } catch (e) {
+              alert('Invalid string entry');
+              console.log(e);
               return false;
             }
           } else {
@@ -104,7 +128,7 @@ class HomePage extends Component {
 
   withinBounds(user_value, option_obj){
     console.log(user_value, option_obj);
-    if(option_obj['type'] === 'Float'){
+    if(option_obj['type'] === 'Float' || option_obj['type'] === 'List of Floats'){
       if(typeof(option_obj['lowerBound']) === typeof('')){
         //this means the lower bound is another option
         let other_option = option_obj['lowerBound'];
@@ -298,7 +322,7 @@ class HomePage extends Component {
                           {show.name}
                         </Header.Content>
                         <Header.Subheader style={{}}>
-                          {show.options && show.options != 'no options' && Object.keys(show.options).length ?
+                          {show.options && show.options !== 'no options' && Object.keys(show.options).length ?
                               Object.keys(show.options).map((key, j) => (
                                 <div key={key} style={{}}>
                                   <Input
